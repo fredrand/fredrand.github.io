@@ -58,7 +58,7 @@ button{
 	display: block;
 	font-size: 1.25em;
 }
-.back_to_home{
+.back_to_home, .back_to_works{
 	position: fixed;
 	top: 20px;
 	left: 35px;
@@ -77,7 +77,7 @@ button{
 	top: 70%;
 	font-size: 0.7em;
 }
-.show_more:after, .back_to_home:after{
+.show_more:after, .back_to_home:after, .back_to_works:after{
 	display: inline-block;
 	content: "";
 	width: 100%;
@@ -88,7 +88,7 @@ button{
 	z-index: -1;
 	background-color: var(--blue);
 }
-.show_more:before, .back_to_home:before , .see_work:before{
+.show_more:before, .back_to_home:before , .see_work:before, .back_to_works:before{
 	content: "";
 	position: absolute;
 	width: 30px;
@@ -864,4 +864,16 @@ button{
 	.main_title {
 	    padding-left: 300px;
 	}
+}
+.webdesign_image{
+	display: block;
+	max-width: 80%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+.back_to_works{
+	/*display: block;*/
+}
+.cursor_default{
+	cursor: default;
 }

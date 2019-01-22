@@ -1,5 +1,7 @@
 const portfolio = {
+
 	is_home: true,
+
 	cache(){
 
 		this.home_holder_inner = $('.home_holder_inner');
@@ -112,7 +114,9 @@ const portfolio = {
 }
 
 const lightbox = {
+
 	current_slide: -1,
+	
 	cache(){
 
 		this.lightbox = $('#lightbox');
