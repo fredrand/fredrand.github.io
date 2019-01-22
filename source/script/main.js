@@ -116,7 +116,7 @@ const portfolio = {
 const lightbox = {
 
 	current_slide: -1,
-	
+
 	cache(){
 
 		this.lightbox = $('#lightbox');
@@ -193,4 +193,3 @@ $(function() {
     portfolio.init();
     lightbox.init();
 });
-
