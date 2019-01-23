@@ -55,6 +55,7 @@ const portfolio = {
 			this.animateNavOnScroll();
 
 		})
+
 	},
 	smoothScroll( elmt ){
 
@@ -170,17 +171,45 @@ const lightbox = {
 		const slide = this.lightbox_slides[ index ];
 		$(slide).removeClass('is_visible');
 	},
+
+	time_out: 0,
+
 	swipeWork( n ){
 
-		this.hideCurrentSlide( this.current_slide );
+		clearTimeout( this.time_out );
 
-		if( n == -1 && this.current_slide == 0){ // prev on first slide
-			this.current_slide = this.lightbox_slides.length
-		}else if( n == 1 && this.current_slide == this.lightbox_slides.length - 1){ // next on last slide
-			this.current_slide = -1;
-		}
+		const slide = this.lightbox_slides[ this.current_slide];
+		const img = $(slide).find('.work_fullscreen');
+		const txt = $(slide).find('.work_detail_inner');
+
+		fadeOut(()=>{
+
+			this.hideCurrentSlide( this.current_slide );
+
+			if( n == -1 && this.current_slide == 0){ // prev on first slide
+				this.current_slide = this.lightbox_slides.length
+			}else if( n == 1 && this.current_slide == this.lightbox_slides.length - 1){ // next on last slide
+				this.current_slide = -1;
+			}
+			
+			this.showSlide( this.current_slide += n );
+
+		}, 500);
 		
-		this.showSlide( this.current_slide += n );
+
+		function fadeOut( callback, ms ){
+
+			img.addClass('fade_out');
+			txt.addClass('fade_out');
+
+			setTimeout(()=>{
+
+				img.removeClass('fade_out');
+				txt.removeClass('fade_out');
+
+				callback();
+			}, ms )
+		};
 	},
 	init(){
 
@@ -192,4 +221,6 @@ const lightbox = {
 $(function() {
     portfolio.init();
     lightbox.init();
+
+    $('.loader_holder').addClass('is_hidden');
 });
