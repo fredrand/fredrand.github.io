@@ -29,10 +29,12 @@ const portfolio = {
 			this.back_to_home.addClass('is_visible');
 
 			this.is_home = false; // toggle back_to_home visibility only on home page
+			$('html, body').delay(350).animate( { scrollTop: 0 }, 750 );
 
 		});
 		this.back_to_home.on('click',()=>{
 
+			console.log()
 			this.home_holder_inner.removeClass('step_two');
 			this.line_art.removeClass('is_hidden');
 			this.back_to_home.removeClass('is_visible');
