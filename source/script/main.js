@@ -34,7 +34,6 @@ const portfolio = {
 		});
 		this.back_to_home.on('click',()=>{
 
-			console.log()
 			this.home_holder_inner.removeClass('step_two');
 			this.line_art.removeClass('is_hidden');
 			this.back_to_home.removeClass('is_visible');
@@ -220,9 +219,112 @@ const lightbox = {
 	}
 }
 
+const allWorkManager = ()=>{
+
+	const view = $('#view');
+
+	// @content { html } - the page to append to view
+	// @parent { html } - the view 
+	const updateView = ( content, parent )=>{
+
+		let holder = $('<div class="inner_view"></div>');
+		holder.append( content );
+		parent.html( holder );
+		$('.porfolio_body').addClass('is_visible');
+	};
+
+	// Show one project
+	// @content { html } - the page retrieved via Ajax
+	const showProjectDetails = ( content )=>{
+		updateView(  $(content).find('#main_content') , view );
+		$('html, body').animate( { scrollTop:0 }, 350 );
+	};
+
+
+	// Load all project masonry
+	$.get( 'source/work/all-work.html')
+		.done(( content )=> { 
+			showProjectDetails( content );
+		});
+	
+
+	// Loads a work when clicking on a "loader_btn"
+	const getProjectContentOnBtnClick = ( loader_btn )=>{
+		
+		// Delegate click event on loader btn
+		// Selector { array } - an array of string selector
+		const delegate = ( selector_arr )=>{
+
+			// For each selector, bind an  ajax call on click
+			selector_arr.forEach(( selector )=>{
+
+				$(document).on('click', selector , function( evt ){
+					evt.preventDefault();
+
+					const work_url = $(this).attr('href');
+
+					// Retrieve portfolio content via Ajax
+					$.get( work_url )
+						.done(( content )=> {
+							showProjectDetails( content );
+						})
+						.fail(function() {
+						   console.log('Ajax error');
+						})
+
+				})
+			});
+
+			
+		};
+
+		delegate( loader_btn );
+	};
+
+	getProjectContentOnBtnClick(['.all_work_item a','.pagination_btn', '.close_project']);
+
+
+	const filterManager = ()=>{
+		$(document).on('click', '.portfolio_filter_item > button' , function( evt ){
+
+			const filter = $(evt.target);
+
+
+			const doc = $(evt.delegateTarget);
+
+			let works = doc.find('.all_work_item');
+
+
+			$('.portfolio_filter_item').removeClass('is_current');
+			filter.parents('.portfolio_filter_item').addClass('is_current');
+
+			// Reset disabled work
+			works.removeClass('is_disabled');
+
+			if( filter.hasClass('all')){ 
+				return ;
+			}else{
+				
+				works.each(function(i, item){
+					const data_filter = filter.attr('data-filter');
+					if( !$(item).hasClass( data_filter )){
+						$(item).addClass('is_disabled');
+					}
+				})
+			}
+
+		})
+	};
+	filterManager();
+
+
+	
+};
+
 $(function() {
     portfolio.init();
     lightbox.init();
+    allWorkManager();
 
     $('.loader_holder').addClass('is_hidden');
 });
